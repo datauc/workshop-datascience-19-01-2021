@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Data Science</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Sebastián Massa Slimming" />
+    <meta name="date" content="2021-01-20" />
+    <script src="Presentación_files/header-attrs-2.6/header-attrs.js"></script>
+    <link href="Presentación_files/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="Presentación_files/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+    <link href="Presentación_files/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+    <link href="Presentación_files/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle, bg_karl1, h2
+# Aplicaciones de Data Science en Ciencias Sociales
+## Sebastián Massa Slimming
+
+### Festival de Data Science
+### 19 de enero 2021
+## #DataScienceUC
+
+&lt;style type="text/css"&gt;
+
+.bg_karl4 {
+  position: relative;
+  z-index: 1;
+}
+
+.bg_karl4::before {    
+      content: "";
+      background-image: url('https://sitiobigdata.com/wp-content/uploads/2019/04/1555804569_What-is-Geometric-Deep-Learning.gif');
+      background-size: cover;
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      bottom: 0px;
+      left: 0px;
+      opacity: 0.9;
+      z-index: -1;
+}
+
+.h4 {
+  color: white;
+  text-shadow: 2px 2px 4px #000000;
+}
+
+&lt;/style&gt;
+
+
+---
+class: center, middle, inverse, h4, bg_karl4
+# Motivaciones
+&lt;style type="text/css"&gt;
+
+.bg_karl1 {
+  position: relative;
+  z-index: 1;
+}
+
+.bg_karl1::before {    
+      content: "";
+      background-image: url('https://techcrunch.com/wp-content/uploads/2020/06/bluekai-tc-hero.gif?w=730&amp;crop=1');
+      background-size: cover;
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      bottom: 0px;
+      left: 0px;
+      opacity: 0.9;
+      z-index: -1;
+}
+
+.h2 {
+  color: white;
+  text-shadow: 2px 2px 4px #000000;
+}
+
+&lt;/style&gt;
+
+---
+class: center, middle
+## Problema en la tabulación de encuestas
+
+Variables mal etiquetadas en **tabulación de encuesta**. [**Microsoft Excel**]()
+
+&lt;center&gt;
+![](Imagenes/etiqueta.gif)
+&lt;center&gt;
+---
+
+class: center, middle
+## Metodología cualitativa y cuantitativa
+
+`$$\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i$$`
+`$$\rho = \frac{\text{cov}(X,Y)}{\sigma_x \sigma_y}$$`
+`$$r = \frac{{}\sum_{i=1}^{n} (x_i - \overline{x})(y_i - \overline{y})}
+{\sqrt{\sum_{i=1}^{n} (x_i - \overline{x})^2(y_i - \overline{y})^2}}$$`
+`$$\sigma = \sqrt{\frac{1}{N} \sum_{i=1}^N (x_i - \mu)^2}$$`
+`$$\begin{equation}
+\hat{Y}_i = \hat{\beta}_0 + \hat{\beta}_1 X_i + \hat{\epsilon}_i
+\end{equation}$$`
+---
+
+## Teoría y práctica sociológica
+
+
+
+```r
+ifelse(SPSS | Stata &lt; R &amp; Python, "Aprender a programar", "Nada")
+```
+
+
+
+```r
+print("Programar con teoría")
+```
+
+```
+## [1] "Programar con teoría"
+```
+
+![](Imagenes/bourdieu.gif) 
+![](Imagenes/funcion2.gif) 
+
+
+---
+# Aplicaciones
+
+.pull-left[
+Realización de **Text mining**. [Package R tidytext](https://cran.r-project.org/web/packages/tidytext/index.html)
+
+
+![](Imagenes/luther_king.jpeg)
+]
+
+--
+.pull-right[
+
+### Output final
+
+
+```r
+library(tidyverse)
+
+Discurso_frecuencias %&gt;% 
+  top_n(20) %&gt;% 
+  ggplot() + 
+  aes(y = reorder(palabra, n), 
+      x = n) + 
+  geom_col(fill = "#F67280") +
+  hrbrthemes::theme_ipsum() +
+  labs(title = "",
+       subtitle = "",
+       x = "Frecuencia",
+       y = "Palabras") +
+  annotation_custom(l)
+```
+
+]
+
+---
+
+## Línea de código previa
+
+
+```r
+img &lt;- readPNG("img", "path")
+g &lt;- rasterGrob(img, interpolate=TRUE)
+
+get_png &lt;- function(filename) {
+  grid::rasterGrob(png::readPNG(filename), interpolate = TRUE)
+}
+
+l &lt;- png::get_png("path")
+t &lt;- grid::roundrectGrob()
+
+Discurso_lineas &lt;- scan("path", fileEncoding = "UTF-8", 
+                        what = "char", sep = "\n")
+
+stopwords_es &lt;- read_csv("diccionarios/vacias.txt")
+
+mis_stopwords &lt;- tibble(palabra = c("de", "no", "y", "null"))
+
+Discurso_frecuencias &lt;- tibble(Discurso_lineas) %&gt;% 
+  unnest_tokens(palabra, Discurso_lineas, strip_numeric = TRUE) %&gt;% 
+  count(palabra, sort = TRUE) 
+```
+
+---
+
+# Aplicaciones
+
+.pull-left[
+ Realización de **Wordcloud**. [Package R wordcloud](https://www.rdocumentation.org/packages/wordcloud/versions/2.6/topics/wordcloud)
+
+![](Imagenes/wordcloud.png)
+]
+
+--
+
+.pull-right[
+
+### Output final
+
+
+```r
+library(tidyverse)
+library(wordcloud)
+
+wordcloud(words = texto, 
+          random.order= FALSE, 
+          colors= 
+          brewer.pal(8,"Dark2"), 
+          rot.per = 0.70, 
+          min.freq = 1,
+          max.words=400, 
+          scale=c(4,0.5))
+```
+
+]
+
+---
+
+## Línea de código previa
+
+
+```r
+text &lt;- readLines("path", encoding = "UTF-8")
+text &lt;- gsub("\x97","ó",text)
+text &lt;- gsub("\x92","í",text)
+text &lt;- gsub("\x87","á", text)
+texto &lt;- Corpus(VectorSource(text))
+texto &lt;- tm_map(texto, content_transformer(tolower))
+texto &lt;- tm_map(texto, removeWords, stopwords("spanish"))
+```
+
+---
+## Aplicaciones
+
+.pull-left[
+ Realización de **Análisis de Correspondencia**. [Package R factoextra](https://www.google.com/search?client=safari&amp;rls=en&amp;q=factoextra&amp;ie=UTF-8&amp;oe=UTF-8)
+
+![](Imagenes/AC.png)
+]
+
+--
+
+.pull-right[
+
+### Output final
+
+
+```r
+library(factoextra)
+
+data &lt;- as.matrix(data)
+data &lt;- as.table(as.matrix(data))
+data &lt;- CA(data, graph=FALSE) 
+fviz_ca_biplot(data, 
+               title= "", 
+               repel=TRUE) +
+  hrbrthemes::theme_ipsum() 
+```
+
+]
+
+---
+
+## Aplicaciones
+.pull-left[
+Realización de **Gráfico animado**. [Package R gganimate](https://cran.r-project.org/web/packages/gganimate/gganimate.pdf)
+
+![](Imagenes/animacion.gif)
+
+]
+
+.pull-right[
+
+```r
+ggplot(p, aes(x = x, y = Posicion, fill = Candidato, color = Candidato)) +
+  geom_col() +
+  geom_image(aes(x = x, image = imagen), y = 0,  
+             size = 0.25, hjust = 1,
+             inherit.aes = FALSE) +
+  geom_text(aes(y = 0, label = Candidato), size = 5, color="black", hjust = -0.05) +
+  geom_text(aes(label = Value_lbl), hjust = 0) +
+  coord_flip(clip = "off", expand = FALSE) +
+  scale_y_continuous(labels = scales::comma) +
+  scale_x_reverse() +
+  guides(color = FALSE, fill = FALSE) +
+  labs(title = "Mes: {closest_state}", x = "", y = "Tendencia en Twitter") +
+  theme_classic() +
+  theme(plot.title = element_text(hjust = 0, size = 26),
+        axis.ticks.y = element_blank(),
+        axis.text.y  = element_blank(),
+        plot.margin = margin(1, 1, 1, 4, "cm")) +
+  transition_states(Mes, transition_length = 4, state_length = 1) +
+  ease_aes('cubic-in-out') 
+```
+] 
+---
+
+# Aplicaciones
+
+Presentación output para **asignación de escaños por D'Hont**. [Package R DT](https://cran.r-project.org/web/packages/data.table/data.table.pdf)
+
+
+```r
+DT::datatable(x, initComplete = JS("function(settings, json) {","$('body').css({'font-family': 'Gill Sans'});","}"))) 
+```
+
+&lt;iframe src="datable.html" style="border: 0; width: 100%; height: 60%""&gt;&lt;/iframe&gt;
+
+---
+
+# Línea de código previa
+
+
+```r
+Simulacion_electoral &lt;- function (votos, listas, n_escanos) {
+  divisor.mat &lt;- sum(votos)/sapply(votos, "/", seq(1, n_escanos, 1))
+  colnames(divisor.mat) &lt;- listas
+  m.mat &lt;- tidyr::gather(as.data.frame(divisor.mat), key = "nombre", 
+                         value = "valor", everything())
+  m.mat &lt;- m.mat[rank(m.mat$valor, ties.method = "random") &lt;= 
+                 n_escanos,]
+  rle.escanos &lt;- rle(as.character(m.mat$nombre))
+  if (sum(rle.escanos$length) != n_escanos) 
+    stop(paste("Número de asientos distribuidos no es igual a", 
+               n_escanos)) 
+  rle.escanos$length
+      }
+
+Simulacion_electoral(votos = c(340000, 280000,160000), 
+                     listas = c("Lista A", "Lista B", "Lista C"),
+                     n_escanos = 7)
+```
+
+```
+## [1] 3 3 1
+```
+
+
+---
+
+# Aplicaciones 
+
+.pull-left[
+Generación de reporte **PDF**. [Package R Markdown](https://cran.r-project.org/web/packages/gganimate/gganimate.pdf)
+
+![](Imagenes/parte1.gif)
+
+]
+
+.pull-right[
+Automatización de reportes con bucle `for`. [Package R Markdown](https://cran.r-project.org/web/packages/gganimate/gganimate.pdf)
+
+![](Imagenes/parte2.gif)
+
+]
+
+
+```r
+for(i in 1:nrow(data)) {
+  rmarkdown::render(input = input,
+                    output_format = "pdf_document", 
+                    output_file = paste0("Ficha_", data$Nombre[i], ".pdf"),
+                    output_dir = paste0(getwd(), "/Fichas"))
+
+  }
+```
+
+---
+# Aplicaciones
+
+Sistema de geolocalización como herramienta analítica para la teoría social. [Package R Leaflet](https://rstudio.github.io/leaflet/markers.html)
+
+&lt;iframe src="leaflet.html" style="border: 0; width: 100%; height: 60%""&gt;&lt;/iframe&gt;
+
+&lt;style type="text/css"&gt;
+
+.bg_karl {
+  position: relative;
+  z-index: 1;
+}
+
+.bg_karl::before {    
+      content: "";
+      background-image: url('https://s2.gifyu.com/images/interactive-gif-internet-in-real-time-what-happens-every-second-on-web-infographic-2.gif');
+      background-size: cover;
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      bottom: 0px;
+      left: 0px;
+      opacity: 0.5;
+      z-index: -1;
+}
+
+.h1 {
+  color: white;
+  text-shadow: 2px 2px 4px #000000;
+}
+
+&lt;/style&gt;
+
+---
+
+class: center, middle
+#Introducción a Tidyverse
+
+---
+
+## Flujo general en Tidyverse
+
+Tidyverse es un conjunto de paquetes para la aplicación de Data Science en R.
+
+![](Imagenes/tidyverse2.png)
+---
+
+## Sintaxis principal
+
+La **sintaxis del Tidyverse** se ha popularizado en los últimos años porque permite leer y programar de forma más natural (izquierda a derecha o bien, desde lo macro a lo micro) y tiene un ecosistema de paquetes que trabajan juntos y facilitan mucho el trabajo. Uno de sus elementos es “el pipe” [%&gt;% ](https://www.tidyverse.org).
+
+
+```r
+data %&gt;% select(w, x, y) %&gt;% filter(x) %&gt;% mutate(z = x*y) 
+```
+
+Trabajaremos particularmente con el [package Dplyr ](https://www.tidyverse.org) Su principal función es la manipulación y el tratamiento de bases de datos.
+
+![](https://thumbs.gfycat.com/RegalGargantuanFirecrest-small.gif)
+
+---
+
+## Select
+
+**select()**: Permite extraer columnas. &lt;br&gt;
+
+![](Imagenes/select.png)
+### Actividad 1 
+
+1. Almacenar la base `airquality` en un vector llamado `data`
+2. Seleccionar variable `Ozone`, `Solar.R`, `Wind` y `Temp` y almacenar en vector X.
+3. Seleccionar la columna 4 y 5 del dataframe.
+
+---
+
+## Filter
+
+**filter()**: Extrae columnas que cumplen orden lógico.  &lt;br&gt;
+
+![](Imagenes/filter.png)
+### Actividad 2
+
+1. De la base `airquality` filtrar la variable `Temp`, tal que siempre sea &gt;= a 68.
+2. Dos condiciones. Filtrar cuando `Ozone` &gt;= 50 y `Temp` &gt;= 88.
+3. Filtrar cuando `Month` sea 7 u 8, y `Day` 10 o 11.
+4. Filtrar cuando `Solar.R` sea 175, 190 o 194.
+
+---
+
+## Mutate
+
+**mutate()**: Calcula/crea nuevas variables.  &lt;br&gt;
+
+![](Imagenes/mutate.png)
+### Actividad 3 
+
+1. De la base `airquality` recodificar etiquetas de la variable `Month`, tal que 5 = mayo, 6 = junio, 7 = julio, 8 = agosto y 9 = septiembre.
+2. Crear nueva variable que evalúe el estado de la temperatura. Si es &gt; 80.0, es temperatura atípica o si es &lt; 80.0, temperatura usual.
+
+---
+## Group_by
+
+**group_by()**: Agrupa filas a partir categorías. &lt;br&gt;
+
+![](Imagenes/group_by.png)
+### Actividad 4
+
+1. De la base `airquality` agrupar por `Month` y almacenar en un vector llamado `agrupamiento`.
+2. Calcular el promedio, mínimo, máximo y desviación estándar por cada mes.
+
+---
+
+## Summarise
+
+**summarise()**: Calcula resumen en base a funciones. &lt;br&gt;
+
+![](Imagenes/summarise.png)
+
+### Otras funciones:
+
+**slice**: Selecciona filas de acuerdo a su posición. &lt;br&gt;
+**rename()**: Renombrar columnas.  &lt;br&gt;
+**count()**: Cuenta número de filas.  &lt;br&gt;
+**arrange()**: Ordena filas según valores de una columna.  
+---
+
+class: center, middle, bg_karl, h1
+# Mientras usted descansa, ya se están generando millones de datos.
+
+---
+# Actividad 5
+
+Usted ha sido contratado como consultor/a para una empresa de compañía de teléfonos. Esta pretende determinar si es que a mayores niveles de llamados (a pesar de costos fijos, variables y overhead) hay mayor cantidad de planes contratados de celulares. Los datos que dispone son los siguientes:
+
+
+```r
+Llamados_ventas &lt;- c(96, 40, 104, 128, 164, 76, 72, 80, 84, 180, 44, 36)
+planes_contratados &lt;- c(41, 41, 51, 53, 60, 61, 50, 28, 48, 70, 33, 30)
+```
+
+### Pregunta
+
+¿De acuerdo al enunciado anterior, qué resultado obtuvo?
+
++ `0.7661246`
++ `0.5403456`
++ `0.3246780`
++ `0.1209345`
+
+---
+class: center, middle
+
+#Pero....
+## ¿Dónde aparece Bourdieu, Marx, Luhman, Parsons o Goffman?
+
+![](Imagenes/sociologos.png)
+---
+
+# Breve ejemplo de Sociología del Consumo
+
+&lt;iframe src="highchart.html" style="border: 0; width: 100%; height: 80%""&gt;&lt;/iframe&gt;
+
+---
+
+# ¿Qué nos dice la teoría? 
+
+.pull-left[Relación entre variables con función **grViz**. [Package R DiagrammeR](https://cran.r-project.org/web/packages/DiagrammeR/index.html)
+
+&lt;img src= "Imagenes/diagrammer.jpg" width = "600" height = "400"&gt;
+
+]
+
+.pull-right[
+
+## Estrategias teóricas
+
+1. Teoría de la elección racional.
+2. Thorstein Veblen y George Simmel.
+3. Max Weber y la acción social.
+4. Escuela de Frankfurt y marxismo analítico.
+5. Jean Baudrillard y el posmodernismo.
+6. Pierre Bourdieu y el concepto de campo social.
+7. Abraham Maslow y la teoría de la necesidad.
+8. Erving Goffman y la microsociología de la acción.
+
+]
+
+&lt;style type="text/css"&gt;
+
+.bg_karl5 {
+  position: relative;
+  z-index: 1;
+}
+
+.bg_karl5::before {    
+      content: "";
+      background-image: url('https://media.giphy.com/media/sRFEa8lbeC7zbcIZZR/giphy.gif');
+      background-size: cover;
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      bottom: 0px;
+      left: 0px;
+      opacity: 0.9;
+      z-index: -1;
+}
+
+.h5 {
+  color: white;
+  text-shadow: 2px 2px 4px #000000;
+}
+
+&lt;/style&gt;
+
+---
+
+class: center, middle, inverse, h5, bg_karl5
+# Conclusiones
+
+
+&lt;style type="text/css"&gt;
+
+.bg_karl2 {
+  position: relative;
+  z-index: 1;
+}
+
+.bg_karl2::before {    
+      content: "";
+      background-image: url('https://cdn.dribbble.com/users/31818/screenshots/5054596/gif-dribb.gif');
+      background-size: cover;
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      bottom: 0px;
+      left: 0px;
+      opacity: 0.9;
+      z-index: -1;
+}
+
+.h3 {
+  color: white;
+  text-shadow: 2px 2px 4px #000000;
+}
+
+&lt;/style&gt;
+
+---
+
+class: center, middle, bg_karl2, h3
+
+# Los datos necesitan de la teoría para poder ser interpretados. 
+
+
+&lt;style type="text/css"&gt;
+
+.bg_karl6 {
+  position: relative;
+  z-index: 1;
+}
+
+.bg_karl6::before {    
+      content: "";
+      background-image: url('https://www.bu.edu/files/2019/06/DataScience-Header.gif');
+      background-size: cover;
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      bottom: 0px;
+      left: 0px;
+      opacity: 0.9;
+      z-index: -1;
+}
+
+.h6 {
+  color: white;
+  text-shadow: 2px 2px 4px #000000;
+}
+
+&lt;/style&gt;
+
+
+---
+
+class: center, middle, bg_karl6, h6
+
+# En las dinámicas organizacionales, la conformación de equipos multidisciplinarios es muy útil.
+
+&lt;style type="text/css"&gt;
+
+.bg_karl7 {
+  position: relative;
+  z-index: 1;
+}
+
+.bg_karl7::before {    
+      content: "";
+      background-image: url('https://funnel.mx/blog/wp-content/uploads/2019/09/big-data-1.gif');
+      background-size: cover;
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      bottom: 0px;
+      left: 0px;
+      opacity: 0.9;
+      z-index: -1;
+}
+
+.h7 {
+  color: white;
+  text-shadow: 2px 2px 4px #000000;
+}
+
+&lt;/style&gt;
+
+---
+
+class: center, middle, bg_karl7, h7
+
+# Programar es un arte. Toda persona interesada puede aprender.
+
+---
+
+class: center, middle
+# ¡Gracias!
+
+&lt;i class="fas fa-envelope"&gt;&lt;/i&gt;
+
+[**sebastian.massa@mat.uc.cl**](sebastian.massa@mat.uc.cl)
+
+
+
+&lt;i class="fab fa-linkedin"&gt;&lt;/i&gt; 
+
+**https://www.linkedin.com/in/sebastián-massa-slimming/**
+
+
+
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create();
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
